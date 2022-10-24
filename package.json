@@ -1,0 +1,24 @@
+{
+  "name": "scroleytimeline",
+  "version": "1.0.0",
+  "description": "A simple, but flexible timeline package",
+  "main": "index.js",
+  "scripts": {
+    "start": "http-server",
+    "sass": "node-sass -w src/scss/ -o src/css/ --recursive"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/OhColar/scroleyTimeline.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/OhColar/scroleyTimeline/issues"
+  },
+  "homepage": "https://github.com/OhColar/scroleyTimeline#readme",
+  "dependencies": {
+    "http-server": "^14.1.1",
+    "node-sass": "^7.0.3"
+  }
+}
