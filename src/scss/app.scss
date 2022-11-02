@@ -6,6 +6,13 @@
 // Variables
 // =============================================
 
+$tl-height: 900px;
+$tl-thickness: 2px;
+$tl-color: #000;
+$tl-hover-color: #e11;
+$tl-item-width: 868px;
+$tl-padding: 32px;
+$tl-dot: 8px;
 
 // Timeline
 // =============================================
@@ -31,8 +38,8 @@
     justify-content: flex-start;
     align-items: center;
     //make variabes?
-    height: 900px;
-    padding-left: 4rem;
+    height: $tl-height;
+    margin:0 4rem;
 
     // Timeline - line
     &::before {
@@ -41,9 +48,21 @@
       position: absolute;
       width:100%;
       //make variabes?
-      height: 2px;
-      background-color: #000;
+      height: $tl-thickness;
+      background-color: $tl-color;
       z-index: 0;
+    }
+
+    // Timeline - end dot
+    &::after {
+      position: absolute;
+      content: "";
+      display: block;
+      width: $tl-dot;
+      height: $tl-dot;
+      border-radius: calc(#{$tl-dot} / 2);
+      background-color: #000;
+      right: -3px;
     }
 
     // Year blocks
@@ -54,15 +73,16 @@
       flex-flow: column nowrap;
       justify-content: center;
       height: 100%;
-      min-width: calc(468px + 32px);
+      min-width: calc(#{$tl-item-width} + #{$tl-padding});
+      //width: 500px;
 
       &::before {
         position: absolute;
         content: "";
         display: block;
-        width: 8px;
-        height: 8px;
-        border-radius: 4px;
+        width: $tl-dot;
+        height: $tl-dot;
+        border-radius: calc(#{$tl-dot} / 2);
         background-color: #000;
         left: -3px;
       }
@@ -70,18 +90,21 @@
       img {
         display: block;
         position: absolute;
-        padding: 0 32px;
-        border-left: 2px solid #000;
+        padding: 0 $tl-padding;
+        border-left: $tl-thickness solid $tl-color;
       }
 
       div {
         position: absolute;
         width: 100%;
-        border-left: 2px solid #000;
+        border-left: $tl-thickness solid $tl-color;
         box-sizing: border-box;
 
         h3 {
           margin-top:0;
+        }
+        p {
+          max-width: 500px;
         }
         p:nth-last-of-type(1) {
           margin-bottom: 0;
@@ -91,32 +114,49 @@
       &.tl-bottom {
         img {
           bottom: 50%;
-          padding-bottom: 32px;
+          padding-bottom: $tl-padding;
         }
         div {
           top:50%;
-          padding: 32px 32px 0;
+          padding: $tl-padding $tl-padding 0;
         }
       }
 
       &.tl-top {
         img {
           top:50%;
-          padding-top: 32px;
+          padding-top: $tl-padding;
 
         }
         div {
           bottom:50%;
-          padding: 0 32px 32px;
+          padding: 0 $tl-padding $tl-padding;
         }
       }
 
-      // loop to plot on timeline
-      @for $i from 1 through 100 {
-        &.p-#{$i} {
-          margin-left: #{$i}#{'%'};
+      &.tl-last {
+        &::before {
+          left: auto;
+          right: -3px;
+        }
+
+        div {
+          border-left: none;
+          border-right: $tl-thickness solid $tl-color;
+          text-align: right;
+
+          p {
+            margin-left: auto;
+          }
         }
       }
+
+      //// loop to plot on timeline
+      //@for $i from 1 through 20 {
+      //  &.p-#{$i} {
+      //    margin-left: #{$i}#{'%'};
+      //  }
+      //}
     }
 
 
@@ -137,9 +177,24 @@
     position: absolute;
     display: block;
     content: "";
-    height: 2px;
+    height: $tl-thickness;
     width: 100%;
-    background-color: #000;
+    background-color: $tl-color;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+  }
+
+  .bar {
+    position: absolute;
+    display: block;
+    content: "";
+    height: 2px;
+    transform: scaleX(0);
+    transform-origin: left;
+    will-change: transform;
+    width: 100%;
+    background-color: red;
     top: 0;
     bottom: 0;
     margin: auto;
@@ -157,7 +212,7 @@
 
     // loop to plot on timeline
     @for $i from 1 through 100 {
-      &.p-#{$i} {
+      &[data-position="#{$i}"] {
         left: #{$i}#{'%'};
       }
     }
@@ -168,13 +223,18 @@
       content: "";
       position: absolute;
       background-color: #000;
-      width: 8px;
-      height: 8px;
-      border-radius: 4px;
+      width: $tl-dot;
+      height: $tl-dot;
+      border-radius: calc(#{$tl-dot} / 2);
       transition: all 0.3s ease 0s;
     }
 
-    span {
+    &.active {
+      &::before {
+        background-color: $tl-hover-color;
+      }
+    }
+    &::after {
       position: absolute;
       opacity: 0;
       color: #000;
@@ -183,29 +243,30 @@
       min-width: 100px;
       left: -50px;
       transition: all 0.3s ease 0s;
+      content: attr(data-year);
+      display: block;
     }
 
     &:nth-of-type(1) {
       left: 0;
-      span {
+      &::after {
         opacity: 1;
       }
     }
 
     &:nth-last-of-type(1) {
       right: 0;
-      span {
+      &::after {
         opacity: 1;
       }
     }
 
     &:hover {
       &::before {
-        transform: scale(1.5);
+        background-color: $tl-hover-color;
       }
-      span {
+      &::after {
         opacity: 1;
-
       }
     }
   }
