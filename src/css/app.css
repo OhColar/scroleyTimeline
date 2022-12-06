@@ -6,7 +6,10 @@
   -ms-overflow-style: none;
   /* Internet Explorer 10+ */
   scrollbar-width: none;
-  /* Firefox */ }
+  /* Firefox */
+  cursor: grab; }
+  #timeline:active {
+    cursor: grabbing; }
   #timeline::-webkit-scrollbar {
     display: none;
     /* Safari and Chrome */ }

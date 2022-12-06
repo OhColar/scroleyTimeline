@@ -26,6 +26,11 @@ $tl-dot: 8px;
   overflow: auto;
   -ms-overflow-style: none;  /* Internet Explorer 10+ */
   scrollbar-width: none;  /* Firefox */
+  cursor: grab;
+
+  &:active {
+    cursor: grabbing;
+  }
 
   &::-webkit-scrollbar {
     display: none;  /* Safari and Chrome */
